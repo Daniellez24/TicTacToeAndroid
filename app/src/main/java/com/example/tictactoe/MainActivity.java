@@ -12,21 +12,24 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     //-1 is no player 1 is x 0 is O
-    static int[] cells = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1};
+    static int[] cells = new int[]{-10, -10, -10, -10, -10, -10, -10, -10, -10};
     // 1 = X, 0 = o
     static int currentPlayer = 1;
     static int stepsCounter = 0;
 
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
+    public static void changeCurrentPlayer(ImageView playersText) {
+        if(currentPlayer == 1){
+            currentPlayer = 0;
+            playersText.setImageResource(R.drawable.oplay);
+            return;
+        }
 
-    public static void changeCurrentPlayer() {
-        currentPlayer = (currentPlayer == 1) ? 0 : 1;
+        playersText.setImageResource(R.drawable.xplay);
+        currentPlayer = 1;
     }
 
     public static void resetGame() {
-        cells = new int[]{-1, -1, -1, -1, -1, -1, -1, -1, -1};
+        cells = new int[]{-10, -10, -10, -10, -10, -10, -10, -10, -10};
         currentPlayer = 1;
     }
 
@@ -50,26 +53,28 @@ public class MainActivity extends AppCompatActivity {
             if (isWon()) {
                 Log.i("IS winning", "X is winning");
                 playersText.setImageResource(R.drawable.xwin);
+                return;
             }
         } else {
             btn.setBackgroundResource(R.drawable.o);
             if (isWon()) {
                 Log.i("IS winning", "O is winning");
-
                 playersText.setImageResource(R.drawable.owin);
+                return;
             }
         }
 
         // out of steps and no one won
-        if (stepsCounter == 9) {
+        if (stepsCounter == 8) {
             if (!isWon()) {
                 playersText.setImageResource(R.drawable.nowin);
+                return;
             }
         }
 
         btn.setEnabled(false);
         //TODO check why calling this here is making the game as won every turn
-//        changeCurrentPlayer();
+        changeCurrentPlayer(playersText);
         Log.i("This is a test", Arrays.toString(cells));
     }
 
