@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.i("This is a test ", String.valueOf(isWon()));
-
+        //TODO daniellle Add event listners here
+        //Give id for each button, when you click on the button :
+        // change the cells array
+        //call isWon on click
+        //is the result of isWon is + finish the game bla bla
     }
 }
