@@ -2,11 +2,14 @@ package com.example.tictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 
@@ -18,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     static int stepsCounter = 0;
 
     public static void changeCurrentPlayer(ImageView playersText) {
-        if(currentPlayer == 1){
+        if (currentPlayer == 1) {
             currentPlayer = 0;
             playersText.setImageResource(R.drawable.oplay);
             return;
@@ -28,10 +31,27 @@ public class MainActivity extends AppCompatActivity {
         currentPlayer = 1;
     }
 
-    public static void resetGame() {
+
+    public static void resetGame(ImageView playerText, Button[] buttons) {
         cells = new int[]{-10, -10, -10, -10, -10, -10, -10, -10, -10};
         currentPlayer = 1;
+        playerText.setImageResource(R.drawable.xplay);
+
+        for (Button btn : buttons) {
+            btn.setEnabled(true);
+            btn.setBackgroundColor(android.R.drawable.btn_default);
+            //TODO check why this is not giving all the buttons the proper background
+            btn.setBackgroundColor(Color.GRAY);
+        }
+
     }
+
+    public void displayPlayAgainBtn() {
+        Button playAgain = findViewById(R.id.playAgainBtn);
+        playAgain.setVisibility(View.VISIBLE);
+        playAgain.setEnabled(true);
+    }
+
 
     public static boolean isWon() {
         int winner;
@@ -45,14 +65,15 @@ public class MainActivity extends AppCompatActivity {
                 cells[2] + cells[4] + cells[6] == 0 || cells[2] + cells[4] + cells[6] == 3);
     }
 
-    public static void addButtonListener(int i, Button btn, ImageView playersText) {
+    public void addButtonListener(int i, Button btn, ImageView playersText) {
         cells[i] = currentPlayer;
         stepsCounter++;
         if (currentPlayer == 1) {
             btn.setBackgroundResource(R.drawable.x);
             if (isWon()) {
-                Log.i("IS winning", "X is winning");
                 playersText.setImageResource(R.drawable.xwin);
+                Log.i("IS winning", "X is winning");
+                displayPlayAgainBtn();
                 return;
             }
         } else {
@@ -60,22 +81,24 @@ public class MainActivity extends AppCompatActivity {
             if (isWon()) {
                 Log.i("IS winning", "O is winning");
                 playersText.setImageResource(R.drawable.owin);
+                displayPlayAgainBtn();
                 return;
             }
         }
 
         // out of steps and no one won
-        if (stepsCounter == 8) {
+        if (stepsCounter == 9) {
+            //TODO CHECK WHY THIS IS ALWAYS TRUE
             if (!isWon()) {
                 playersText.setImageResource(R.drawable.nowin);
+                displayPlayAgainBtn();
                 return;
             }
         }
 
         btn.setEnabled(false);
-        //TODO check why calling this here is making the game as won every turn
         changeCurrentPlayer(playersText);
-        Log.i("This is a test", Arrays.toString(cells));
+        Log.i("This is a cell", Arrays.toString(cells));
     }
 
     @Override
@@ -83,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Button playAgain = findViewById(R.id.playAgainBtn);
+        playAgain.setVisibility(View.INVISIBLE);
+        playAgain.setEnabled(false);
 
         Button btn1 = findViewById(R.id.btn1);
         Button btn2 = findViewById(R.id.btn2);
@@ -105,5 +131,11 @@ public class MainActivity extends AppCompatActivity {
         btn7.setOnClickListener(view -> addButtonListener(6, btn7, playersText));
         btn8.setOnClickListener(view -> addButtonListener(7, btn8, playersText));
         btn9.setOnClickListener(view -> addButtonListener(8, btn9, playersText));
+
+        playAgain.setOnClickListener(view -> resetGame(playersText,
+                new Button[]{btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9})
+        );
+
+        resetGame(playersText, new Button[]{btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9});
     }
 }
