@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static void resetGame(ImageView playerText, Button[] buttons) {
+    public static void resetGame(ImageView playerText, Button playAgain, Button[] buttons) {
         cells = new int[]{-10, -10, -10, -10, -10, -10, -10, -10, -10};
         currentPlayer = 1;
         playerText.setImageResource(R.drawable.xplay);
@@ -40,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
         for (Button btn : buttons) {
             btn.setClickable(true);
             btn.setBackgroundColor(android.R.drawable.btn_default);
-            //TODO check why this is not giving all the buttons the proper background
-            btn.setBackgroundColor(Color.GRAY);
         }
+
+        playAgain.setVisibility(View.INVISIBLE);
+        playAgain.setEnabled(false);
 
     }
 
@@ -132,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
         btn8.setOnClickListener(view -> addButtonListener(7, btn8, playersText));
         btn9.setOnClickListener(view -> addButtonListener(8, btn9, playersText));
 
-        playAgain.setOnClickListener(view -> resetGame(playersText,
+        playAgain.setOnClickListener(view -> resetGame(playersText,playAgain,
                 new Button[]{btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9})
         );
 
-        resetGame(playersText, new Button[]{btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9});
+        resetGame(playersText, playAgain, new Button[]{btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9});
     }
 }
