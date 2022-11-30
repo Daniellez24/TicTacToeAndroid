@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     // 1 = X, 0 = o
     static int currentPlayer = 1;
     static int stepsCounter = 0;
+
     Button btn1;
     Button btn2;
     Button btn3;
@@ -29,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
     Button btn9;
 
     static ImageView lineImg;
+    static ImageView playersText;
 
-    public static void changeCurrentPlayer(ImageView playersText) {
+    public static void changeCurrentPlayer() {
         if (currentPlayer == 1) {
             currentPlayer = 0;
             playersText.setImageResource(R.drawable.oplay);
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         cells = new int[]{-10, -10, -10, -10, -10, -10, -10, -10, -10};
         currentPlayer = 1;
         playerText.setImageResource(R.drawable.xplay);
+        stepsCounter = 0;
 
         for (Button btn : buttons) {
             btn.setClickable(true);
@@ -66,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         playAgain.setVisibility(View.VISIBLE);
         playAgain.setEnabled(true);
     }
-
 
     public boolean isWon() {
         boolean topRow = cells[0] + cells[1] + cells[2] == 0 || cells[0] + cells[1] + cells[2] == 3;
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 topLeftBottomRight || topRightBottomLeft);
     }
 
-    public void addButtonListener(int i, Button btn, ImageView playersText) {
+    public void addButtonListener(int i, Button btn) {
         cells[i] = currentPlayer;
         stepsCounter++;
         if (currentPlayer == 1) {
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         btn.setClickable(false);
-        changeCurrentPlayer(playersText);
+        changeCurrentPlayer();
         Log.i("This is a cell", Arrays.toString(cells));
     }
 
