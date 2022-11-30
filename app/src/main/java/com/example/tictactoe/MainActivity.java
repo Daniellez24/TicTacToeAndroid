@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         playerText.setImageResource(R.drawable.xplay);
 
         for (Button btn : buttons) {
-            btn.setEnabled(true);
+            btn.setClickable(true);
             btn.setBackgroundColor(android.R.drawable.btn_default);
             //TODO check why this is not giving all the buttons the proper background
             btn.setBackgroundColor(Color.GRAY);
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        btn.setEnabled(false);
+        btn.setClickable(false);
         changeCurrentPlayer(playersText);
         Log.i("This is a cell", Arrays.toString(cells));
     }
