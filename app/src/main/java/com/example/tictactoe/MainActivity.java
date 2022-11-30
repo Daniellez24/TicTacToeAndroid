@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     // 1 = X, 0 = o
     static int currentPlayer = 1;
     static int stepsCounter = 0;
+    static ImageView playersText;
     Button btn1;
     Button btn2;
     Button btn3;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     static ImageView lineImg;
 
-    public static void changeCurrentPlayer(ImageView playersText) {
+    public static void changeCurrentPlayer() {
         if (currentPlayer == 1) {
             currentPlayer = 0;
             playersText.setImageResource(R.drawable.oplay);
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         cells = new int[]{-10, -10, -10, -10, -10, -10, -10, -10, -10};
         currentPlayer = 1;
         playerText.setImageResource(R.drawable.xplay);
+        stepsCounter = 0;
 
         for (Button btn : buttons) {
             btn.setClickable(true);
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 topLeftBottomRight || topRightBottomLeft);
     }
 
-    public void addButtonListener(int i, Button btn, ImageView playersText) {
+    public void addButtonListener(int i, Button btn) {
         cells[i] = currentPlayer;
         stepsCounter++;
         if (currentPlayer == 1) {
@@ -157,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         btn.setClickable(false);
-        changeCurrentPlayer(playersText);
+        changeCurrentPlayer();
         Log.i("This is a cell", Arrays.toString(cells));
     }
 
@@ -180,18 +182,18 @@ public class MainActivity extends AppCompatActivity {
         btn8 = findViewById(R.id.btn8);
         btn9 = findViewById(R.id.btn9);
 
-        ImageView playersText = findViewById(R.id.playerText);
+        playersText = findViewById(R.id.playerText);
         lineImg = findViewById(R.id.lineImage);
 
-        btn1.setOnClickListener(view -> addButtonListener(0, btn1, playersText));
-        btn2.setOnClickListener(view -> addButtonListener(1, btn2, playersText));
-        btn3.setOnClickListener(view -> addButtonListener(2, btn3, playersText));
-        btn4.setOnClickListener(view -> addButtonListener(3, btn4, playersText));
-        btn5.setOnClickListener(view -> addButtonListener(4, btn5, playersText));
-        btn6.setOnClickListener(view -> addButtonListener(5, btn6, playersText));
-        btn7.setOnClickListener(view -> addButtonListener(6, btn7, playersText));
-        btn8.setOnClickListener(view -> addButtonListener(7, btn8, playersText));
-        btn9.setOnClickListener(view -> addButtonListener(8, btn9, playersText));
+        btn1.setOnClickListener(view -> addButtonListener(0, btn1));
+        btn2.setOnClickListener(view -> addButtonListener(1, btn2));
+        btn3.setOnClickListener(view -> addButtonListener(2, btn3));
+        btn4.setOnClickListener(view -> addButtonListener(3, btn4));
+        btn5.setOnClickListener(view -> addButtonListener(4, btn5));
+        btn6.setOnClickListener(view -> addButtonListener(5, btn6));
+        btn7.setOnClickListener(view -> addButtonListener(6, btn7));
+        btn8.setOnClickListener(view -> addButtonListener(7, btn8));
+        btn9.setOnClickListener(view -> addButtonListener(8, btn9));
 
         playAgain.setOnClickListener(view -> resetGame(playersText, playAgain,
                 new Button[]{btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9})
